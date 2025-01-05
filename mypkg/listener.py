@@ -1,25 +1,28 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int16
+from std_msgs.msg import String
 
+class TimeListener(Node):
 
-class Listener(Node):
     def __init__(self):
-        super().__init__("listener")
-        self.sub = self.create_subscription(Int16, "countup", 10)
-        self.create_timer(0.5, self.cb)
-        self.n = 0
+        super().__init__('time_listener')
+        self.subscription = self.create_subscription(
+            String,
+            'elapsed_time',
+            self.listener_callback,
+            10
+        )
 
+    def listener_callback(self, msg):
+        self.get_logger().info(f'受信: {msg.data}')
 
-    def cb(self):
-        rclpy.init()
-        node = Listener()
-        rclpy.spin(node)
-
-
-def main():
-    rclpy.init()
-    node = Listener()
+def main(args=None):
+    rclpy.init(args=args)
+    node = TimeListener()
     rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
 
+if __name__ == '__main__':
+    main()
             
