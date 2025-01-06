@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Taisei Sakai
 # SPDX-License-Identifier: BSD-3-Clause
 
+
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
@@ -17,7 +18,7 @@ class ElapsedTimePublisher(Node):
 
         self.hourly_rate = 1300  # 時給
         self.warning_threshold = 60 * 60 * 8  # 8時間を警告閾値とする
-        self.get_logger().info('ElapsedTimePublisher node has started.')  # 起動確認
+        self.get_logger().info('ElapsedTimePublisher node has started.')  # ノード起動確認
 
     def timer_callback(self):
         # 経過時間と収入を計算
@@ -42,13 +43,9 @@ class ElapsedTimePublisher(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = ElapsedTimePublisher()
-    try:
-        rclpy.spin(node)
-    except KeyboardInterrupt:
-        node.get_logger().info('ノードを停止しました。')
-    finally:
-        node.destroy_node()
-        rclpy.shutdown()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
