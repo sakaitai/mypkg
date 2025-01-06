@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-FileCopyrightText: 2024 Reo Isaka
+# SPDX-FileCopyrightText: 2024 TAISEI SAKAI
 # SPDX-License-Identifier: BSD-3-Clause
 
 dir=~
@@ -16,7 +16,7 @@ timeout 10 ros2 run mypkg talker > /tmp/mypkg.log &  # バックグラウンド�
 sleep 2
 
 # ログファイルから特定のメッセージが含まれているかをgrepでチェック
-cat /tmp/mypkg.log | grep -e '秒　　　俺: ' -e '円'
+cat /tmp/mypkg.log | grep -e '秒 とんかつバイト: ' -e '円'
 
 # プロセスを終了する
 kill %1

@@ -19,7 +19,7 @@ class TimePublisher(Node):
         earned_money = (total_seconds / 3600) * self.hourly_rate  # 時給を秒単位で計算
 
         msg = String()
-        msg.data = f'{total_seconds}秒　　　俺: {int(earned_money)} 円'
+        msg.data = f'{total_seconds}秒 とんかつバイト: {int(earned_money)} 円'
         self.publisher_.publish(msg)
         self.get_logger().info(f'経過時間: {total_seconds}秒, 俺の収入: {int(earned_money)} 円')
 
