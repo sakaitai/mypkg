@@ -9,16 +9,19 @@ class TimePublisher(Node):
         super().__init__('time_publisher')
         self.publisher_ = self.create_publisher(String, 'elapsed_time', 10)
         self.start_time = time.time()
-        self.timer = self.create_timer(1.0, self.timer_callback)
+        self.timer = self.create_timer(1.0, self.timer_callback)  # 1秒ごとにコールバック
+
+        self.hourly_rate = 1300  # 時給
 
     def timer_callback(self):
         elapsed_time = time.time() - self.start_time
-        hours, remainder = divmod(elapsed_time, 3600)
-        minutes, seconds = divmod(remainder, 60)
+        total_seconds = int(elapsed_time)
+        earned_money = (total_seconds / 3600) * self.hourly_rate  # 時給を秒単位で計算
+
         msg = String()
-        msg.data = f'{int(hours)}時間{int(minutes)}分{int(seconds)}秒経過'
+        msg.data = f'{total_seconds}秒　　　俺: {int(earned_money)} 円'
         self.publisher_.publish(msg)
-        self.get_logger().info('経過時間をパブリッシュしました。')
+        self.get_logger().info(f'経過時間: {total_seconds}秒, 俺の収入: {int(earned_money)} 円')
 
 def main(args=None):
     rclpy.init(args=args)
@@ -29,4 +32,4 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-        
+
